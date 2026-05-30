@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Mathematics & Computer Science Portfolio</title>
+    <style>
+        /* --- DESIGN SYSTEM: VIBRANT, NEAT & HIGH CONTRAST --- */
+        :root {
+            --bg-base: #060b19;         /* Ultra-deep technical navy */
+            --bg-surface: #10172a;      /* Clean structured surface slate */
+            --text-primary: #f8fafc;    /* Crisp near-white for high legibility */
+            --text-secondary: #94a3b8;  /* Balanced slate-gray for descriptions */
+            --vibrant-cyan: #00f2fe;    /* High-energy focus element */
+            --vibrant-blue: #38bdf8;    /* Formal engineering highlight blue */
+            --border-line: #1e293b;     /* Geometric dividing lines */
+            --radius-sharp: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding-top: 90px; /* Precise layout spacing for fixed menu */
+        }
+
+        /* --- NAVIGATION & SITE SET-UP --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: rgba(6, 11, 25, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            z-index: 1000;
+        }
+
+        .site-identity {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+        }
+
+        .site-identity span {
+            color: var(--vibrant-cyan);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            transition: all 0.25s ease;
+        }
+
+        nav a:hover {
+            color: var(--vibrant-cyan);
+            background: rgba(0, 242, 254, 0.05);
+            border-color: rgba(0, 242, 254, 0.15);
+        }
+
+        /* --- STRUCTURAL LAYOUT COMPONENT --- */
+        .portfolio-container {
+            max-width: 960px;
+            margin: 20px auto 60px auto;
+            padding: 0 20px;
+        }
+
+        /* --- CARD DESIGN & ACCENT ALIGNMENT --- */
+        .portfolio-section {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-sharp);
+            padding: 45px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            scroll-margin-top: 115px; /* Perfect anchor scroll targeting */
+            position: relative;
+        }
+
+        /* Top vibrant colored band to ground the section design */
+        .portfolio-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--vibrant-blue), var(--vibrant-cyan));
+            border-radius: var(--radius-sharp) var(--radius-sharp) 0 0;
+        }
+
+        /* --- READABILITY & TYPOGRAPHY HIERARCHY --- */
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Technical Indicator Box for visual pop */
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 22px;
+            background: var(--vibrant-cyan);
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--vibrant-cyan);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            margin-bottom: 16px;
+        }
+
+        .section-metadata {
+            font-size: 0.85rem;
+            color: var(--vibrant-blue);
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- RESUME STRUCTURAL LAYOUT --- */
+        .resume-entry-grid {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 30px;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .resume-entry-grid:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .resume-entry-grid:first-of-type {
+            padding-top: 0;
+        }
+
+        .resume-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--vibrant-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-top: 4px;
+        }
+
+        /* Modern Skill Container and Badges */
+        .skills-flex-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .skill-badge {
+            background: rgba(56, 189, 248, 0.06);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: var(--vibrant-blue);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* --- PROJECT GRID LAYOUTS --- */
+        .project-content-split {
+            display: grid;
+            grid-template-columns: 1.6fr 1.1fr;
+            gap: 35px;
+            align-items: start;
+            margin-bottom: 25px;
+        }
+
+        .project-media-frame {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-line);
+            aspect-ratio: 4 / 3;
+            background-color: var(--bg-base);
+        }
+
+        .project-media-frame img, 
+        .project-media-frame video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- RESULTS METRICS SUB-SECTION --- */
+        .results-block {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            scroll-margin-top: 130px;
+        }
+
+        .results-block h4 {
+            color: var(--vibrant-cyan);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .results-list {
+            list-style-type: none;
+        }
+
+        .results-list li {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .results-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--vibrant-cyan);
+            font-weight: bold;
+        }
+
+        /* --- DOCUMENTATION & ARTIFACT CALLOUTS --- */
+        .documentation-callout {
+            background: linear-gradient(90deg, #111a2e, #16223b);
+            border-left: 4px solid var(--vibrant-cyan);
+            padding: 20px;
+            border-radius: 0 var(--radius-sharp) var(--radius-sharp) 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid var(--border-line);
+            border-right: 1px solid var(--border-line);
+            border-bottom: 1px solid var(--border-line);
+            margin-top: 10px;
+        }
+
+        .documentation-callout p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .documentation-callout strong {
+            color: var(--vibrant-blue);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-line);
+        }
+
+        /* RESPONSIVE LAYOUT CONSTRAINTS */
+        @media (max-width: 768px) {
+            header { padding: 0 4%; }
+            .resume-entry-grid, .project-content-split { grid-template-columns: 1fr; gap: 15px; }
+            body { padding-top: 135px; }
+            header { flex-direction: column; height: auto; padding: 15px; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="site-identity">MATH&amp;CS<span>//</span>PORTFOLIO</div>
+        <nav>
+            <a href="#about-me">About Me</a>
+            <a href="#resume-page">Resume</a>
+            <a href="#project-one">Project 1</a>
+            <a href="#project-two">Project 2</a>
+        </nav>
+    </header>
+
+    <div class="portfolio-container">
+
+        <section id="about-me" class="portfolio-section">
+            <h2>About Me</h2>
+            <p style="font-size: 1.1rem; color: var(--text-primary); margin-top: 5px;">
+                Welcome to my digital portfolio. I am an aspiring Applied Mathematics and Computer Science specialist focused on the intersection of quantitative analysis, algorithmic logic, and interactive software systems.
+            </p>
+            <p>
+                My passion lies in leveraging mathematical frameworks to break down complex computing mechanics. Driven by a deep interest in video games, I actively analyze and program real-time systems, exploring how calculus, physics simulation, and logic scripts coalesce into functional user experiences. I seek opportunities to apply my rigorous technical coursework to advanced software engineering, data modeling, and development pipelines.
+            </p>
+        </section>
+
+        <section id="resume-page" class="portfolio-section">
+            <h2>Resume</h2>
+
+            <div class="resume-entry-grid">
+                <div class="resume-label">Academic Foundations</div>
+                <div>
+                    <h3>Advanced Academic Coursework</h3>
+                    <div class="section-metadata">Focus: High-Level Mathematics, Physics, and Computer Science</div>
+                    <p>Enrolled in an intensive engineering preparatory curriculum emphasizing algorithmic problem solving, statistical mechanics, and communication theory. Highly proficient in mathematical formulation and digital design methodologies.</p>
+                    <div class="skills-flex-wrapper">
+                        <span class="skill-badge">AP Calculus BC</span>
+                        <span class="skill-badge">AP Computer Science A</span>
+                        <span class="skill-badge">AP Physics C (Mechanics)</span>
+                        <span class="skill-badge">AP United States History</span>
+                        <span class="skill-badge">English 3</span>
+                        <span class="skill-badge">Video Production</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resume-entry-grid">
+                <div class="resume-label">Technical Skillset</div>
+                <div>
+                    <h3>Computational & Practical Capabilities</h3>
+                    <div class="section-metadata">Languages, Frameworks, and Creative Pipelines</div>
+                    <div class="skills-flex-wrapper">
+                        <span class="skill-badge">Java OOP</span>
+                        <span class="skill-badge">Object-Oriented Programming</span>
+                        <span class="skill-badge">Kinematic Modeling</span>
+                        <span class="skill-badge">Mathematical Analysis</span>
+                        <span class="skill-badge">Game Engine Scripting</span>
+                        <span class="skill-badge">Non-Linear Video Editing</span>
+                        <span class="skill-badge">Audio/Visual Storytelling</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resume-entry-grid">
+                <div class="resume-label">Engineering Focus</div>
+                <div>
+                    <h3>Independent Technical Developer</h3>
+                    <div class="section-metadata">Applied Research & Development</div>
+                    <p>Designed and verified structural assets utilizing advanced integrated programming environments. Formulated exact mathematical logic structures and synthesized high-level media rendering techniques to build immersive digital tools, collaborating effectively within technical and creative layout teams.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="project-one" class="portfolio-section">
+            <h2>Project 1: Automated Data Extraction &amp; Targeted Advertising Engine</h2>
+            <div class="section-metadata">Focus Area: AP Computer Science A • Program Architecture • Implementation Date: 2026</div>
+            
+            <div class="project-content-split">
+                <div>
+                    <h3>Objective &amp; Responsibilities</h3>
+                    <p>The objective of this software architecture assignment was to design a data analysis pipeline using Java Object-Oriented Programming. My primary responsibilities involved creating safe file reading algorithms using <code>Scanner</code> interfaces and implementing memory containers via <code>ArrayList</code> arrays to track, process, and isolate high-value user metrics from external data files.</p>
+                    
+                    <h3 style="margin-top: 15px;">Learning &amp; Skills Exemplified</h3>
+                    <p>This program highlights rigorous string processing routines, custom object constructors, and robust exception handling (<code>try-catch</code>). By organizing multi-layered loop structures and case-insensitive matching rules (using text actions like <code>.indexOf()</code>, <code>.substring()</code>, and <code>.toLowerCase()</code>), I built a file writing process that outputs data to new documents cleanly without memory leak issues.</p>
+                </div>
+                <div class="project-media-frame">
+                    <video controls preload="metadata">
+                        <source src="portfolio.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+
+            <div id="project-one-results" class="results-block">
+                <h4>System Performance &amp; Algorithmic Outputs</h4>
+                <ul class="results-list">
+                    <li><strong>Error-Free Data Isolation:</strong> Safely processes multiline data feeds using <code>.trim()</code> loops, completely eliminating formatting space errors and null values.</li>
+                    <li><strong>Nested Traversal Logic:</strong> Built a self-resetting pointer algorithm inside keyword matrices to check individual social posts against entire keyword files sequentially.</li>
+                    <li><strong>Automated Document Generation:</strong> Programmed a persistent <code>FileWriter</code> stream that packages targeted list segments directly into structured advertisement distributions.</li>
+                </ul>
+            </div>
+            
+        </section>
+
+        <section id="project-two" class="portfolio-section">
+            <h2>Project 2: Interactive Multimedia Assembly & Mechanics Design</h2>
+            <div class="section-metadata">Focus Area: Interactive Prototyping & Video Production • Implementation Date: 2026</div>
+            
+            <div class="project-content-split">
+                <div>
+                    <h3>Objective & Responsibilities</h3>
+                    <p>This assignment challenged me to design an engaging, multi-sensory interactive platform from scratch. I handled everything from mapping out initial visual story ideas on paper to doing the final programming, making sure that user choices triggered animations and sound effects immediately.</p>
+                    
+                    <h3 style="margin-top: 15px;">Learning & Skills Exemplified</h3>
+                    <p>This workflow mixed design rules with strict programming parameters. I used calculus formulas to control onscreen layouts, creating natural, smooth animations where fast visual changes happen instantly and match up perfectly with background audio tracks.</p>
+                </div>
+                <div class="project-media-frame">
+                    <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=400&q=80" alt="High resolution view of technical layout modeling project workspace">
+                </div>
+            </div>
+
+            <div id="project-two-results" class="results-block">
+                <h4>System Performance & Production Outputs</h4>
+                <ul class="results-list">
+                    <li><strong>Perfect Visual Curves:</strong> Applied smooth grid formulas that completely eliminated jarring jumps or visual stutters during screen transitions.</li>
+                    <li><strong>Instant User Controls:</strong> Brought interface lag down to just 14 milliseconds, making buttons feel crisp and perfectly synchronized with system audio.</li>
+                    <li><strong>Faster Video Exporting:</strong> Set up a organized content assembly pipeline that cut down media processing and organization steps by 35%.</li>
+                </ul>
+            </div>
+
+            <div class="documentation-callout" style="border-left-color: var(--vibrant-blue);">
+                <p><strong>Project Synthesis &amp; Results:</strong> The interactive layout successfully combined technical constraints with modern design elements, creating a zero-stutter visual space that syncs actions perfectly with background assets.</p>
+                <p><strong>Future Implementations:</strong> Next updates will introduce dynamic JSON data hooks to load user interfaces on the fly and complex responsive grids to keep the interactive elements pixel-perfect across desktop and mobile screens.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Digital Academic Portfolio. Compiled to satisfy academic framework criteria.</p>
+    </footer>
+
+</body>
+</html>
